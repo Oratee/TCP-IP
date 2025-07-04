@@ -63,17 +63,77 @@ Al enviar un email, tu cliente de correo usa SMTP (capa de Aplicación) para for
 
 Internet = oficina postal de 4 departamentos que hacen que tu meme llegue al otro lado del mundo 😄
 
-5. **📶 Puertos y Protocolos Comunes para Desarrolladores Web**
+## 🛠️ Protocolos Clave en el Día a Día Web
 
-   - ¿Qué es un puerto?
-   - Puertos típicos: 80 (HTTP), 443 (HTTPS), 22 (SSH), 3306 (MySQL)
+### HTTP/HTTPS
+- **HTTP (HyperText Transfer Protocol):**  
+  Protocolo que permite la comunicación entre navegadores y servidores web. No es seguro, los datos viajan sin cifrar.
+- **HTTPS (HyperText Transfer Protocol Secure):**  
+  Es la versión segura de HTTP, cifra los datos para proteger la información que viaja entre el navegador y el servidor.
 
-6. **🛠️ Protocolos clave en el día a día web**
+---
 
-   - HTTP/HTTPS
-   - DNS
-   - DHCP
-   - TCP vs UDP (con ejemplos como streaming vs navegación)
+### DNS (Domain Name System)
+- Es el sistema que traduce nombres de dominio (como `google.com`) en direcciones IP.
+- Permite que los navegadores encuentren la ubicación real de los sitios web en Internet.
+
+---
+
+### DHCP (Dynamic Host Configuration Protocol)
+- Protocolo que asigna automáticamente direcciones IP a los dispositivos cuando se conectan a una red.
+- Evita que tengamos que configurar la IP de forma manual.
+
+---
+
+### TCP vs UDP
+
+| Característica              | TCP                             | UDP                             |
+|-----------------------------|---------------------------------|---------------------------------|
+| Fiabilidad                  | Alta (asegura entrega ordenada)  | Baja (pueden perderse datos)    |
+| Velocidad                   | Más lento                       | Más rápido                      |
+| Uso típico                  | Navegación web, descarga de archivos | Streaming, videollamadas, juegos |
+| Control de errores          | Sí                              | No                              |
+
+- **Ejemplo de TCP:** Cargar una página web, descargar un archivo.
+- **Ejemplo de UDP:** Streaming de video, videollamadas, juegos en línea.
+
+
+## 🛠️ Protocolos Clave en el Día a Día Web - Resumen Simple
+
+### HTTP/HTTPS
+- **HTTP (HyperText Transfer Protocol):**  
+  Protocolo que permite la comunicación entre navegadores y servidores web. No es seguro.
+- **HTTPS (HyperText Transfer Protocol Secure):**  
+  Igual que HTTP, pero con seguridad y cifrado de datos.
+
+---
+
+### DNS (Domain Name System)
+- Es como la "agenda" de Internet.
+- Traduce nombres web (como `google.com`) en direcciones IP que los navegadores pueden entender y localizar.
+
+---
+
+### DHCP (Dynamic Host Configuration Protocol)
+- Asigna automáticamente direcciones IP a los dispositivos en una red.
+- Permite que los equipos se conecten sin configurar manualmente la IP.
+
+---
+
+### TCP vs UDP
+
+| Característica              | TCP                            | UDP                             |
+|-----------------------------|--------------------------------|---------------------------------|
+| Fiabilidad                  | Alta (asegura entrega ordenada) | Baja (pueden perderse datos)    |
+| Velocidad                   | Más lento                      | Más rápido                      |
+| Uso típico                  | Navegación web, descarga de archivos | Streaming, videollamadas, juegos |
+| Control de errores          | Sí                             | No                              |
+
+- **TCP Ejemplo:** Abrir una página web, descargar un archivo.
+- **UDP Ejemplo:** Streaming de video, videollamadas, juegos en línea.
+
+---
+
 
 7. **🧭 Proceso básico de conexión en la web**
 
