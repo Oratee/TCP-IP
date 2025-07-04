@@ -135,16 +135,171 @@ Internet = oficina postal de 4 departamentos que hacen que tu meme llegue al otr
 ---
 
 
-7. **🧭 Proceso básico de conexión en la web**
+# 🧭 Proceso básico de conexión en la web
 
-   - De tu navegador a un servidor web: ¿qué ocurre paso a paso?
-   - Resolución DNS
-   - Establecimiento de conexión TCP (Handshake)
+## De tu navegador a un servidor web: ¿qué ocurre paso a paso?
 
-8. **🔐 Seguridad y capa de transporte**
+Cuando escribes una URL en tu navegador y presionas Enter, se inicia una secuencia de eventos que permite que tu dispositivo se conecte con un servidor web en cualquier parte del mundo. Este proceso, aunque parece instantáneo, involucra varios pasos técnicos precisos.
 
-   - Introducción rápida a SSL/TLS
-   - Qué cambia cuando usamos HTTPS
+### 1. **Análisis de la URL**
+El navegador descompone la URL en sus componentes:
+- **Protocolo**: `http://` o `https://`
+- **Dominio**: `ejemplo.com`
+- **Puerto**: (por defecto 80 para HTTP, 443 para HTTPS)
+- **Ruta**: `/pagina/index.html`
+
+### 2. **Verificación de caché**
+El navegador revisa si ya tiene una copia reciente de la página solicitada en su caché local. Si la encuentra y está vigente, puede mostrarla directamente sin necesidad de contactar al servidor.
+
+### 3. **Resolución DNS**
+Si necesita contactar al servidor, el navegador debe convertir el nombre de dominio legible (como `google.com`) en una dirección IP numérica que las computadoras puedan entender.
+
+### 4. **Establecimiento de conexión TCP**
+Una vez que tiene la dirección IP, el navegador establece una conexión confiable con el servidor usando el protocolo TCP.
+
+### 5. **Intercambio de seguridad (si es HTTPS)**
+Si la conexión es segura, se establece un canal cifrado entre el navegador y el servidor.
+
+### 6. **Envío de la petición HTTP**
+El navegador envía una petición HTTP al servidor, especificando qué recurso necesita.
+
+### 7. **Procesamiento y respuesta del servidor**
+El servidor procesa la petición y envía de vuelta el contenido solicitado junto con metadatos sobre la respuesta.
+
+### 8. **Renderizado de la página**
+El navegador recibe el contenido y lo convierte en la página web visual que ves en tu pantalla.
+
+## Resolución DNS
+
+El **Sistema de Nombres de Dominio (DNS)** funciona como la "guía telefónica" de internet. Cuando escribes `google.com`, tu computadora no sabe automáticamente dónde encontrar ese sitio web.
+
+### ¿Cómo funciona la resolución DNS?
+
+1. **Consulta local**: Tu dispositivo primero revisa su caché DNS local para ver si ya conoce la dirección IP de ese dominio.
+
+2. **Consulta al resolver DNS**: Si no la encuentra localmente, contacta al servidor DNS configurado en tu red (generalmente proporcionado por tu proveedor de internet).
+
+3. **Consulta recursiva**: Si tu resolver DNS tampoco conoce la dirección, inicia una búsqueda recursiva:
+   - Consulta a los **servidores raíz** (.)
+   - Estos redirigen a los servidores del **dominio de nivel superior** (.com, .org, etc.)
+   - Finalmente llega a los **servidores autoritativos** del dominio específico
+
+4. **Respuesta en cascada**: La dirección IP se devuelve siguiendo el mismo camino en reversa, y cada servidor guarda la información en su caché para futuras consultas.
+
+### Ejemplo práctico:
+```
+Usuario escribe: www.ejemplo.com
+DNS devuelve: 192.168.1.100
+El navegador ahora sabe a qué servidor conectarse
+```
+
+## Establecimiento de conexión TCP (Handshake)
+
+TCP (Transmission Control Protocol) es el protocolo que garantiza que los datos lleguen de manera confiable y ordenada entre tu navegador y el servidor web.
+
+### El Three-Way Handshake
+
+Antes de que cualquier dato web pueda transferirse, el navegador y el servidor deben establecer una conexión TCP mediante un proceso de tres pasos:
+
+1. **SYN (Synchronize)**
+   - El navegador envía un paquete SYN al servidor
+   - Mensaje: "Hola, quiero establecer una conexión contigo"
+   - Incluye un número de secuencia inicial
+
+2. **SYN-ACK (Synchronize-Acknowledge)**
+   - El servidor responde con un paquete SYN-ACK
+   - Mensaje: "Recibido, yo también quiero conectarme contigo"
+   - Confirma el número de secuencia del cliente y envía el suyo
+
+3. **ACK (Acknowledge)**
+   - El navegador envía un paquete ACK final
+   - Mensaje: "Perfecto, conexión establecida"
+   - Confirma que recibió la respuesta del servidor
+
+### ¿Por qué es importante este proceso?
+
+- **Confiabilidad**: Garantiza que ambos extremos estén listos para comunicarse
+- **Sincronización**: Establece números de secuencia para ordenar los datos
+- **Control de flujo**: Permite manejar la velocidad de transmisión
+- **Detección de errores**: Identifica si hay problemas en la conexión
+
+Una vez completado el handshake, la conexión TCP está lista para transferir datos HTTP de manera confiable.
+
+---
+
+# 🔐 Seguridad y capa de transporte
+
+## Introducción rápida a SSL/TLS
+
+**SSL (Secure Sockets Layer)** y su sucesor **TLS (Transport Layer Security)** son protocolos criptográficos que proporcionan seguridad en las comunicaciones a través de una red. Aunque SSL está técnicamente obsoleto, el término se sigue usando coloquialmente para referirse a TLS.
+
+### ¿Qué problemas resuelve SSL/TLS?
+
+1. **Confidencialidad**: Cifra los datos para que solo el destinatario pueda leerlos
+2. **Integridad**: Garantiza que los datos no fueron modificados durante la transmisión
+3. **Autenticación**: Verifica la identidad del servidor (y opcionalmente del cliente)
+
+### ¿Cómo funciona el cifrado?
+
+SSL/TLS utiliza una combinación de cifrado simétrico y asimétrico:
+
+- **Cifrado asimétrico**: Usa un par de claves (pública y privada) para el intercambio inicial seguro
+- **Cifrado simétrico**: Usa una clave compartida (más eficiente) para cifrar la comunicación posterior
+
+### El handshake SSL/TLS
+
+Cuando estableces una conexión HTTPS, ocurre un proceso adicional después del handshake TCP:
+
+1. **Cliente Hello**: El navegador envía sus capacidades criptográficas
+2. **Servidor Hello**: El servidor selecciona los algoritmos y envía su certificado
+3. **Verificación del certificado**: El navegador verifica que el certificado sea válido
+4. **Intercambio de claves**: Se establece una clave de sesión compartida
+5. **Confirmación**: Ambos confirman que el canal seguro está establecido
+
+## Qué cambia cuando usamos HTTPS
+
+La diferencia entre HTTP y HTTPS va mucho más allá de simplemente agregar una "s" al final.
+
+### Cambios técnicos fundamentales:
+
+**Puerto por defecto**:
+- HTTP: Puerto 80
+- HTTPS: Puerto 443
+
+**Proceso de conexión**:
+- HTTP: Solo handshake TCP
+- HTTPS: Handshake TCP + handshake SSL/TLS
+
+**Datos en tránsito**:
+- HTTP: Texto plano, completamente visible
+- HTTPS: Cifrados, ilegibles para interceptores
+
+### Beneficios de seguridad:
+
+1. **Protección contra espionaje**: Nadie puede leer tus datos mientras viajan por la red
+2. **Protección contra manipulación**: Los datos no pueden ser modificados sin detectarse
+3. **Autenticación del servidor**: Te aseguras de que estás hablando con el servidor correcto
+4. **Protección contra ataques man-in-the-middle**: Previene que alguien se interponga en tu comunicación
+
+### Indicadores visuales en el navegador:
+
+- **Candado verde/gris**: Conexión segura establecida
+- **Advertencia**: Problemas con el certificado
+- **"No seguro"**: Conexión HTTP sin cifrar
+
+### Consideraciones de rendimiento:
+
+**Costos adicionales**:
+- Tiempo extra para el handshake SSL/TLS
+- Procesamiento adicional para cifrar/descifrar datos
+- Ligeramente más ancho de banda
+
+**Beneficios compensatorios**:
+- HTTP/2 (que requiere HTTPS) es más eficiente
+- Mejor SEO (Google favorece sitios HTTPS)
+- Confianza del usuario
+
+En la práctica moderna, HTTPS se ha convertido en el estándar, y muchos navegadores ya marcan los sitios HTTP como "no seguros" por defecto.
 
 9. **🧪 Herramientas básicas para ver el protocolo en acción**
 
